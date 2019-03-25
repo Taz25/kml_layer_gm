@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <title>Janus Lab 6  Mondrian Styled Map</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+
+        // Create a new StyledMapType object, passing it an array of styles,
+        // and the name to be displayed on the map type control.
+		// This is the styled text for the Mondrian Style Map from SnazzyMaps
+		
+        var styledMapType = new google.maps.StyledMapType(
+           [
+    {
+        "elementType": "labels",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "road",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#0F0919"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#E4F7F7"
+            }
+        ]
+    },
+    {
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#002FA7"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#E60003"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#FBFCF4"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.business",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#FFED00"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.government",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#D41C1D"
+            }
+        ]
+    },
+    {
+        "featureType": "poi.school",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#BF0000"
+            }
+        ]
+    },
+    {
+        "featureType": "transit.line",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "saturation": -100
+            }
+        ]
+    }
+],
+            {name: 'Mondrian Style'});
+
+        // Create a map object, and include the MapTypeId to add
+        // to the map type control.
+		
+		//Center of Frederick, Maryland
+		var center = {lat: 39.4143, lng: -77.4105};
+		
+		//Map
+        var map = new google.maps.Map(document.getElementById('map'), {
+          //center: {lat: 39.4143, lng: -77.4105},
+		  center: center,
+          zoom: 13,
+          mapTypeControlOptions: {
+            mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
+                    'styled_map']
+          }
+        });
+		
+		// Location of my childhood home
+		var home = {lat:39.4545291, lng:-77.4311762};
+		
+		//Create the markers at my old house, set animation to DROP
+		var marker = new google.maps.Marker({
+			position: home,
+			map: map,
+			animation: google.maps.Animation.DROP,
+			title: "Home!"
+			});
+			
+         // Add circle.  The circle is located at the neighborhood/city pool. 
+         var circle = new google.maps.Circle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#008080',
+            fillOpacity: 0.35,
+            map: map,
+            center: {lat:39.4593977, lng:-77.4329675},
+            radius: 450,
+			title: "Pool"
+            });
+		  
+        
+		
+		//Create KML Layer
+		//var kmlLayer = new google.maps.KmlLayer({
+			//url:
+			//suppressInfoWindows: true,
+			//map: map
+			//});
+			
+		var ctaLayer = new google.maps.KmlLayer({
+           //url: 'https://drive.google.com/uc?export=download&id=1NOI-zvJSkyZ68MM7lXPGDIKlw_Ao6SVM',
+		  //url: 'http://googlemaps.github.io/js-v2-samples/ggeoxml/cta.kml',
+		  url:  'https://opendata.maryland.gov/api/geospatial/hahp-aks6?method=export&format=KML',
+          map: map
+        }); 
+			
+
+        //Associate the styled map with the MapTypeId and set it to display.
+        map.mapTypes.set('styled_map', styledMapType);
+        map.setMapTypeId('styled_map');
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfVquUaOXulDFZBoxEiymriRAi7-5rYJQ&callback=initMap">
+    </script>
+  </body>
+</html>
